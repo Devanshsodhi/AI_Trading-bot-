@@ -1,3 +1,5 @@
+PLS NOTE : currently working on integrating kafka and docker to deploy the app efficiently 
+
 # 🤖 Generative AI Trading System
 
 >A sophisticated multi-agent trading system powered by Generative AI, combining TimeGAN, Large Language Models, Reinforcement Learning, and Deep Learning for intelligent stock market analysis.
