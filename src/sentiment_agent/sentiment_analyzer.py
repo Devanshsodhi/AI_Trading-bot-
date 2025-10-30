@@ -19,10 +19,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 class SentimentAgent:
-    """
-    Sentiment Analysis Agent using FinBERT
-    Analyzes financial news and generates sentiment scores
-    """
 
     def __init__(self, config: dict):
         """
@@ -124,17 +120,6 @@ class SentimentAgent:
 
         return unique_articles[:self.max_articles]
 
-    def _generate_mock_news(self, ticker: str) -> List[Dict]:
-        """Generate mock news articles for testing"""
-        mock_articles = [
-            {'title': f'{ticker} reports strong earnings', 'text': f'{ticker} beats expectations.', 'source': 'Mock News', 'date': datetime.now().strftime('%Y-%m-%d')},
-            {'title': f'Analysts upgrade {ticker}', 'text': f'Rating upgraded due to strong fundamentals.', 'source': 'Mock News', 'date': (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')},
-            {'title': f'{ticker} announces new product', 'text': f'New product could drive growth.', 'source': 'Mock News', 'date': (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d')},
-            {'title': f'Market volatility affects {ticker}', 'text': f'Volatile trading seen.', 'source': 'Mock News', 'date': (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')},
-            {'title': f'{ticker} CEO discusses strategy', 'text': f'CEO outlines expansion plans.', 'source': 'Mock News', 'date': (datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d')},
-        ]
-        return mock_articles
-
     def analyze_sentiment(self, text: str) -> Dict:
         """Analyze sentiment of a single text"""
         if self.model is None or self.tokenizer is None:
@@ -154,17 +139,6 @@ class SentimentAgent:
             logger.error(f"Error in sentiment analysis: {e}")
             return self._mock_sentiment_analysis(text)
 
-    def _mock_sentiment_analysis(self, text: str) -> Dict:
-        """Generate mock sentiment for testing"""
-        text_lower = text.lower()
-        positive_words = ['strong', 'beat', 'exceed', 'growth', 'upgrade', 'buy', 'innovative', 'success']
-        negative_words = ['weak', 'miss', 'decline', 'downgrade', 'sell', 'concern', 'volatility', 'risk']
-        pos_count = sum(1 for word in positive_words if word in text_lower)
-        neg_count = sum(1 for word in negative_words if word in text_lower)
-        total = pos_count + neg_count
-        sentiment_score = (pos_count - neg_count) / total if total > 0 else 0.0
-        label = 'Bullish' if sentiment_score > 0.2 else 'Bearish' if sentiment_score < -0.2 else 'Neutral'
-        return {'score': sentiment_score, 'label': label, 'scores': {'positive': max(0, sentiment_score), 'negative': max(0, -sentiment_score), 'neutral': 1 - abs(sentiment_score)}}
 
     def analyze_ticker(self, ticker: str) -> Dict:
         """Analyze sentiment for a ticker"""
